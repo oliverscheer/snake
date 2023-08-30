@@ -6,10 +6,13 @@ let snake = [{ x: 5, y: 5 }];
 let direction = "right";
 let food = { x: 10, y: 10 };
 let snakeLength = 1; // Initialize the snake's length
-
 let gameRunning = false; // Track if the game is running
 let gamePaused = false;  // Track if the game is paused
 
+document.getElementById("startButton").addEventListener("click", startGame);
+document.getElementById("pauseButton").addEventListener("click", pauseGame);
+document.getElementById("resumeButton").addEventListener("click", resumeGame);
+document.getElementById("restartButton").addEventListener("click", restartGame);
 
 function getRandomPosition() {
     return Math.floor(Math.random() * gridSize);
@@ -55,7 +58,6 @@ function update() {
 
     snake.unshift(head);
 
-
     if (head.x === food.x && head.y === food.y) {
         food = { x: getRandomPosition(), y: getRandomPosition() };
         snakeLength++; // Increment the snake's length
@@ -65,18 +67,15 @@ function update() {
     }
 }
 
-
 function updateSnakeLength() {
     const snakeLengthElement = document.getElementById("snakeLength");
     snakeLengthElement.textContent = "Snake Length: " + snakeLength;
 }
 
-
 function endGame() {
     const gameOverElement = document.getElementById("gameOver");
     gameOverElement.style.display = "block"; // Display the game over message
 }
-
 
 function gameLoop() {
     if (gameRunning && !gamePaused) {
@@ -86,24 +85,6 @@ function gameLoop() {
         setTimeout(gameLoop, 100);
     }
 }
-
-document.addEventListener("keydown", event => {
-    switch (event.key) {
-        case "ArrowUp":
-            direction = "up";
-            break;
-        case "ArrowDown":
-            direction = "down";
-            break;
-        case "ArrowLeft":
-            direction = "left";
-            break;
-        case "ArrowRight":
-            direction = "right";
-            break;
-    }
-});
-
 
 function startGame() {
     if (!gameRunning) {
@@ -138,10 +119,21 @@ function restartGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-document.getElementById("startButton").addEventListener("click", startGame);
-document.getElementById("pauseButton").addEventListener("click", pauseGame);
-document.getElementById("resumeButton").addEventListener("click", resumeGame);
-document.getElementById("restartButton").addEventListener("click", restartGame);
-
+document.addEventListener("keydown", event => {
+    switch (event.key) {
+        case "ArrowUp":
+            direction = "up";
+            break;
+        case "ArrowDown":
+            direction = "down";
+            break;
+        case "ArrowLeft":
+            direction = "left";
+            break;
+        case "ArrowRight":
+            direction = "right";
+            break;
+    }
+});
 
 gameLoop();
